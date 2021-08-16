@@ -4,7 +4,7 @@ public class DataCheck
 {
     public static bool checkIntegrity(byte[] bytes)
     {
-        byte CheckSum = Crc8.ComputeChecksum(bytes);
+        // byte CheckSum = Crc8.ComputeChecksum(bytes);
         return (Crc8.ComputeChecksum(bytes) == 0);
     }
 

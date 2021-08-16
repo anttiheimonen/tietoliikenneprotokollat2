@@ -14,18 +14,20 @@ public class VirtualSocket : Socket
         set
         {
             if ((value >= 0) && (value <= 100))
+            {
                 _packetDropRate = value;
+            }
         }
     }
 
     private int _packetDelayRate;
     public int PacketDelayRate
     {
-        get => _packetDropRate;
+        get => _packetDelayRate;
         set
         {
             if ((value >= 0) && (value <= 100))
-                _packetDropRate = value;
+                _packetDelayRate = value;
         }
     }
 
@@ -68,16 +70,17 @@ public class VirtualSocket : Socket
     public int ReceiveFromWithErrors(byte[] buffer, ref EndPoint remoteEP)
     {
         int bytesGot = 0;
-        if (dropPacket())
-        {
-            byte[] blackhole = new byte[512];
-            ReceiveFrom(blackhole, ref remoteEP);
-            Debug.WriteLine("Incoming packet dropped");
-            buffer = new byte[512];
-            return 0;
-        }
         try
         {
+            if (dropPacket())
+            {
+                byte[] blackhole = new byte[2048];
+                ReceiveFrom(blackhole, ref remoteEP);
+                Debug.WriteLine("Incoming packet dropped");
+                buffer = new byte[2048];
+                return 0;
+            }
+
             bytesGot = ReceiveFrom(buffer, ref remoteEP);
 
             if (makeBitErrorToPacket())
@@ -89,9 +92,9 @@ public class VirtualSocket : Socket
             addPossibleDelay();
 
         }
-        catch (SocketException)
+        catch (SocketException e)
         {
-            Debug.WriteLine("Socket timet out");
+            Debug.WriteLine("Socket timed out");
         }
 
         return bytesGot;
@@ -137,7 +140,9 @@ public class VirtualSocket : Socket
 
     private bool dropPacket()
     {
-        return (rand.Next(100) < PacketDropRate);
+        int random = rand.Next(100);
+        // Debug.WriteLine("pudotetaanko paketti: {0} {1}", random, PacketDropRate);
+        return (random < PacketDropRate);
     }
 
 

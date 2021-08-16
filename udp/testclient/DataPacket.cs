@@ -5,7 +5,9 @@ public class DataPacket
     public byte[] initData;
     public byte[] finalData;
     public byte[] ack;
-    private byte seqNumber;
+    private byte _seqNumber;
+    public byte SeqNumber { get => _seqNumber; }
+
     public bool ackReceived = false;
     public PacketType type;
 
@@ -19,10 +21,20 @@ public class DataPacket
         }
     }
 
+    private int _sendAttempts = 0;
+    public int SendAttempts
+    {
+        get => _sendAttempts;
+        set
+        {
+            _sendAttempts = value;
+        }
+    }
+
 
     public DataPacket(byte seqNumber, byte[] data, PacketType packetType)
     {
-        this.seqNumber = seqNumber;
+        this._seqNumber = seqNumber;
         this.type = packetType;
         this.initData = data;
         byte[] temp = addSeqNumberAndType(initData);
@@ -33,7 +45,7 @@ public class DataPacket
     private byte[] addSeqNumberAndType(byte[] initData)
     {
         byte[] tempData = new byte[initData.Length + 2];
-        tempData[0] = seqNumber;
+        tempData[0] = _seqNumber;
         tempData[1] = (byte)type;
         Buffer.BlockCopy(initData, 0, tempData, 2, initData.Length);
         return tempData;
@@ -45,7 +57,7 @@ public class DataPacket
         if (ack == null || ack.Length < 2)
             return false;
 
-        if (ack[0] == seqNumber && ack[1] == (byte)PacketType.ack)
+        if (ack[0] == _seqNumber && ack[1] == (byte)PacketType.ack)
             return true;
 
         return false;
