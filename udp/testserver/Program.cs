@@ -15,7 +15,7 @@ namespace testserver
             EndPoint endPoint = null;
             VirtualSocket vs = null;
             // ReliabilityLayer rl = null;
-            GBNReceive gbn;
+            // GBNReceive gbn;
 
             try
             {
@@ -30,21 +30,43 @@ namespace testserver
                 vs.PacketDropRate = 0;
                 vs.PacketDelayRate = 0;
                 vs.PacketDelayTimeSeconds = 0;
-                gbn = new GBNReceive(vs, endPoint);
 
-                int packetsGot = 0;
+                // gbn = new GBNReceive(vs, endPoint);
+
+                // int packetsGot = 0;
+                // StringBuilder stringBuilder = new StringBuilder();
+                // while (packetsGot < 5)
+                // {
+                //     byte[] message = gbn.receiveGBN();
+                //     if (message.Length > 0)
+                //     {
+                //         string s = Encoding.ASCII.GetString(message, 0, message.Length);
+                //         stringBuilder.Append(s);
+                //         packetsGot++;
+                //     }
+                // }
+
+                // ReliabilityLayerPosAck rl = new ReliabilityLayerPosAck(vs, endPoint);
                 StringBuilder stringBuilder = new StringBuilder();
-                while (packetsGot < 5)
+
+
+                SRReceive sr = new SRReceive(vs, endPoint);
+
+                int count = 0;
+                while (true)
                 {
-                    byte[] message = gbn.receiveGBN();
-                    if (message.Length > 0)
+                    byte[] buffer = sr.receive();
+                    if (buffer.Length > 0)
                     {
-                        string s = Encoding.ASCII.GetString(message, 0, message.Length);
-                        stringBuilder.Append(s);
-                        packetsGot++;
+                        // var message = Tools.trimArray(buffer, bytesGot);
+                        string s = Encoding.ASCII.GetString(buffer);
+                        System.Console.Write(s);
+                        count++;
+                        System.Console.WriteLine(count);
                     }
                 }
-                System.Console.Write(stringBuilder.ToString());
+                // System.Console.Write(stringBuilder.ToString());
+
 
                 // rl = new ReliabilityLayer(vs, endPoint);
 

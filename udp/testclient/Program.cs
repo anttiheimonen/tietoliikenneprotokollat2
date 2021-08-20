@@ -9,7 +9,8 @@ namespace testclient
         static VirtualSocket vs;
         static EndPoint endPoint;
         // static ReliabilityLayer rl;
-        static GBN gbn;
+        // static GBN gbn;
+        static SR sr;
 
         static void Main(string[] args)
         {
@@ -46,7 +47,7 @@ thought Alice, without pictures or conversations? So she was
 considering in her own mind, (as well as she could, for the hot
 day made her feel very sleepy and stupid,) whether the pleasure
 of making a daisy-chain was worth the trouble of getting up and
-picking the daisies, when a white rabbit with pink eyes ran close 
+picking the daisies, when a white rabbit with pink eyes ran close
 by her.
 
 There was nothing very remarkable in that, nor did Alice think it
@@ -63,24 +64,74 @@ just in time to see it pop down a large rabbit-hole under the
 hedge. In a moment down went Alice after it, never once
 considering how in the world she was to get out again.
 
-There were doors all round the hall, but they were all locked,
-and when Alice had been all round it, and tried them all, she
-walked sadly down the middle, wondering how she was ever to get
-out again: suddenly she came upon a little three-legged table,
-all made of solid glass; there was nothing lying upon it, but a
-tiny golden key, and Alice's first idea was that it might belong
-to one of the doors of the hall, but alas! either the locks were
-too large, or the key too small, but at any rate it would open
-none of them. However, on the second time round, she came to a
-low curtain, behind which was a door about eighteen inches high:
-she tried the little key in the keyhole, and it fitted! Alice
-opened the door, and looked down a small passage, not larger than
-a rat-hole, into the loveliest garden you ever saw.";
+The rabbit-hole went straight on like a tunnel for some way, and
+then dipped suddenly down, so suddenly, that Alice had not a
+moment to think about stopping herself, before she found herself
+falling down what seemed a deep well. Either the well was very
+deep, or she fell very slowly, for she had plenty of time as she
+went down to look about her, and to wonder what would happen
+next. First, she tried to look down and make out what she was
+coming to, but it was too dark to see anything: then, she looked
+at the sides of the well, and noticed that they were filled with
+cupboards and book-shelves: here and there were maps and pictures
+hung on pegs. She took a jar down off one of the shelves as she
+passed: it was labelled Orange Marmalade, but to her great
+disappointment it was empty: she did not like to drop the jar,
+for fear of killing somebody underneath, so managed to put it
+into one of the cupboards as she fell past it.
+
+Well! thought Alice to herself, after such a fall as this, I
+shall think nothing of tumbling down stairs! How brave they'll
+all think me at home! Why, I wouldn't say anything about it, even
+if I fell off the top of the house! (which was most likely
+true.)
+
+Down, down, down. Would the fall never come to an end? I wonder
+how many miles I've fallen by this time? she said aloud, I must
+be getting somewhere near the centre of the earth. Let me see:
+that would be four thousand miles down, I think-- (for you see
+Alice had learnt several things of this sort in her lessons in
+the schoolroom, and though this was not a very good opportunity
+of showing off her knowledge, as there was no one to hear her,
+still it was good practice to say it over,) yes that's the right
+distance, but then what Longitude or Latitude-line shall I be
+in? (Alice had no idea what Longitude was, or Latitude either,
+but she thought they were nice grand words to say.)
+
+Presently she began again: I wonder if I shall fall right
+through the earth! How funny it'll be to come out among the
+people that walk with their heads downwards! But I shall have to
+ask them what the name of the country is, you know. Please,
+Ma'am, is this New Zealand or Australia?--and she tried to
+curtsey as she spoke (fancy curtseying as you're falling through
+the air! do you think you could manage it?) and what an ignorant
+little girl she'll think me for asking! No, it'll never do to
+ask: perhaps I shall see it written up somewhere.
+
+Down, down, down: there was nothing else to do, so Alice soon
+began talking again. Dinah will miss me very much tonight, I
+should think! (Dinah was the cat.) I hope they'll remember her
+saucer of milk at tea-time! Oh, dear Dinah, I wish I had you
+here! There are no mice in the air, I'm afraid, but you might
+catch a bat, and that's very like a mouse, you know, my dear. But
+do cats eat bats, I wonder? And here Alice began to get rather
+sleepy, and kept on saying to herself, in a dreamy sort of way
+do cats eat bats? do cats eat bats? and sometimes, do bats
+eat cats? for, as she couldn't answer either question, it didn't
+much matter which way she put it. She felt that she was dozing
+off, and had just begun to dream that she was walking hand in
+hand with Dinah, and was saying to her very earnestly, Now,
+Dinah, my dear, tell me the truth. Did you ever eat a bat? when
+suddenly, bump! bump! down she came upon a heap of sticks and
+shavings, and the fall was over.";
 
                 byte[] messageBytes = Encoding.ASCII.GetBytes(alice);
 
-                gbn = new GBN(vs, endPoint);
-                gbn.sendData(messageBytes);
+                sr = new SR(vs, endPoint);
+                sr.send(messageBytes);
+
+                // gbn = new GBN(vs, endPoint);
+                // gbn.sendData(messageBytes);
 
                 // rl = new ReliabilityLayer(vs, endPoint);
 

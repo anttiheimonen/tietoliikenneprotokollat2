@@ -9,10 +9,39 @@ public static class Tools
         return packet;
     }
 
+
     public static byte[] getData(byte[] packet)
     {
         byte[] data = new byte[packet.Length - 3];
         Buffer.BlockCopy(packet, 2, data, 0, packet.Length - 3);
         return data;
+    }
+
+
+    public static DataPacket[] moveArrayObjectsLeftAndNullRest(DataPacket[] array, int count)
+    {
+        for (int i = 0; i < array.Length - count; i++)
+        {
+            array[i] = array[i + count];
+        }
+
+
+        for (int i = array.Length - count; i < array.Length; i++)
+        {
+            array[i] = null;
+        }
+
+        return array;
+    }
+
+
+    public static byte[] combineArrays(byte[] LeftArray, byte[] RightArray)
+    {
+        int length = LeftArray.Length + RightArray.Length;
+        byte[] combined = new byte[length];
+        Buffer.BlockCopy(LeftArray, 0, combined, 0, LeftArray.Length);
+        Buffer.BlockCopy(RightArray, 0, combined, LeftArray.Length, RightArray.Length);
+
+        return combined;
     }
 }

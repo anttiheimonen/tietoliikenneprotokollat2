@@ -20,6 +20,15 @@ public class DataPacket
             _sendTime = value;
         }
     }
+    private DateTime _resendTime;
+    public DateTime ResendTime
+    {
+        get => _resendTime;
+        set
+        {
+            _resendTime = value;
+        }
+    }
 
     private int _sendAttempts = 0;
     public int SendAttempts
@@ -39,6 +48,18 @@ public class DataPacket
         this.initData = data;
         byte[] temp = addSeqNumberAndType(initData);
         this.finalData = DataCheck.addCrc8(temp);
+    }
+
+
+    public DataPacket(byte[] finalData)
+    {
+        if (finalData.Length < 3)
+            return;
+
+        this.finalData = finalData;
+        this._seqNumber = finalData[0];
+        this.type = (PacketType)finalData[1];
+        extractInitDataFromFinal(finalData);
     }
 
 
@@ -72,5 +93,20 @@ public class DataPacket
         ack = new byte[numberOfBytes - 1];
         Buffer.BlockCopy(ackMessage, 0, ack, 0, numberOfBytes - 1);
         return ackIsOK();
+    }
+
+
+    private void extractInitDataFromFinal(byte[] finaldata)
+    {
+        var data = new byte[finalData.Length - 3];
+        Buffer.BlockCopy(finaldata, 2, data, 0, data.Length);
+        this.initData = data;
+    }
+
+
+    public byte[] getAck()
+    {
+        var ack = new byte[] { this.SeqNumber, (byte)PacketType.ack };
+        return DataCheck.addCrc8(ack);
     }
 }
